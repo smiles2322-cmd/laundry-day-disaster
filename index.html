@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2a8c94">
+  <meta name="description" content="Laundry Day Disaster is a goofy gag game. Catch runaway cartoon undies in the basket and dodge the stink bombs.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Laundry Day">
+  <title>Laundry Day Disaster</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="page">
+    <div id="app">
+      <div id="live" class="sr-only" aria-live="polite"></div>
+
+      <section id="screen-title" class="screen menu active" aria-label="Title screen">
+        <img class="brand-icon" src="icons/icon-192.png" width="92" height="92" alt="Cartoon hamper with smiling underwear bouncing out">
+        <h1>Laundry Day Disaster</h1>
+        <p class="gift-line">Made just for you</p>
+        <div class="portrait-wrap">
+          <img src="assets/images/tammy-portrait-circle.png" width="190" height="190" alt="Portrait of a smiling woman in her 50s with wavy brown hair, a silver streak, round glasses, and a white Smiles 2322 T-shirt, holding a laundry basket">
+        </div>
+        <p class="tagline">The hamper blew its lid. Chase the runaway undies, and leave the stink bombs alone.</p>
+        <div class="btn-col">
+          <button type="button" class="primary" id="btn-timed" aria-label="Play a 60-second round">60-Second Rush</button>
+          <button type="button" class="secondary" id="btn-endless" aria-label="Play endless mode">Endless Mode</button>
+          <button type="button" id="btn-how" aria-label="How to play">How to Play</button>
+          <button type="button" id="btn-settings" aria-label="Open settings">Settings</button>
+        </div>
+        <p class="fine-print">A goofy gag game. No ads, no accounts, no purchases. Nothing is saved except the settings on this device.</p>
+      </section>
+
+      <section id="screen-how" class="screen menu" aria-label="How to play" hidden>
+        <h1>How to Play</h1>
+        <div class="panel">
+          <h2>Catch the runaways</h2>
+          <ul>
+            <li>Move the player left and right, and catch falling cartoon undies in the laundry basket.</li>
+            <li>On a phone, drag or slide. On a keyboard, use the left and right arrow keys or A and D.</li>
+            <li>Each catch builds a combo, and combos raise your score.</li>
+            <li>If an undie hits the floor, your combo resets.</li>
+          </ul>
+          <h2>Dodge the stink bombs</h2>
+          <ul>
+            <li>Stink bombs are round, green, and trailing squiggles. Do not catch them.</li>
+            <li>In Endless mode, three misses or stink bombs end the round.</li>
+            <li>Press Space or P to pause. Press Escape to leave a round.</li>
+          </ul>
+          <p>The undies are silly cartoon characters with faces. They are not worn by anyone in the game.</p>
+        </div>
+        <div class="btn-col">
+          <button type="button" class="primary" id="btn-how-back" aria-label="Back to title">Back</button>
+        </div>
+      </section>
+
+      <section id="screen-settings" class="screen menu" aria-label="Settings" hidden>
+        <h1>Settings</h1>
+        <div class="panel">
+          <div class="settings-row">
+            <span id="lbl-sound">Sound effects</span>
+            <button type="button" class="toggle" id="tog-sound" role="switch" aria-checked="true" aria-pressed="true" aria-labelledby="lbl-sound"> </button>
+          </div>
+          <div class="settings-row">
+            <span id="lbl-motion">Reduce motion</span>
+            <button type="button" class="toggle" id="tog-motion" role="switch" aria-checked="false" aria-pressed="false" aria-labelledby="lbl-motion"> </button>
+          </div>
+          <div class="settings-row">
+            <span id="lbl-large">Large text</span>
+            <button type="button" class="toggle" id="tog-large" role="switch" aria-checked="false" aria-pressed="false" aria-labelledby="lbl-large"> </button>
+          </div>
+          <p>These stay on this device only. The game does not collect data or go online to play.</p>
+        </div>
+        <div class="btn-col">
+          <button type="button" class="primary" id="btn-set-back" aria-label="Back to title">Back</button>
+        </div>
+      </section>
+
+      <section id="screen-game" class="screen" aria-label="Game" hidden>
+        <div id="stage">
+          <canvas id="game" width="390" height="844" aria-label="Laundry chase game area"></canvas>
+          <div id="hud">
+            <div class="hud-card" id="hud-score">
+              <div class="label">Score</div>
+              <div class="value" id="val-score">0</div>
+            </div>
+            <div class="hud-card hud-center" id="hud-combo">
+              <div class="label">Combo <span id="val-combo">x1</span></div>
+              <div class="combo-bar" aria-hidden="true"><span id="combo-fill"></span></div>
+            </div>
+            <div class="hud-right">
+              <button type="button" id="btn-pause" aria-label="Pause the game">Pause</button>
+              <div class="hud-card" style="margin-top:6px">
+                <div class="label" id="meter-label">Time</div>
+                <div class="value" id="val-meter">60</div>
+              </div>
+            </div>
+          </div>
+          <div id="float-msg" aria-hidden="true"></div>
+          <div class="hint-bar" id="hint-bar">Drag to move, or use arrow keys. Catch undies, dodge stink bombs.</div>
+          <div id="countdown" aria-live="assertive"><p id="count-num">3</p></div>
+          <div id="pause-overlay">
+            <h2>Paused</h2>
+            <button type="button" class="primary" id="btn-resume" aria-label="Resume the game">Resume</button>
+            <button type="button" id="btn-quit" aria-label="Quit to title">Quit to Title</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="screen-results" class="screen menu" aria-label="Results" hidden>
+        <div class="portrait-wrap">
+          <img id="result-portrait" src="assets/images/tammy-portrait-circle.png" width="190" height="190" alt="Portrait of the player character, a woman in her 50s wearing glasses and a Smiles 2322 T-shirt">
+        </div>
+        <p class="gift-line">Made just for you</p>
+        <h1 id="rank-title" class="rank-title">Hamper Hero</h1>
+        <p class="score-big" id="result-score">0</p>
+        <p id="result-blurb">Not bad for a laundry emergency.</p>
+        <div class="stat-row">
+          <div><div class="k">Caught</div><div class="v" id="stat-caught">0</div></div>
+          <div><div class="k">Missed</div><div class="v" id="stat-missed">0</div></div>
+          <div><div class="k">Best combo</div><div class="v" id="stat-combo">x1</div></div>
+        </div>
+        <div class="btn-col">
+          <button type="button" class="primary" id="btn-again" aria-label="Play again">Play Again</button>
+          <button type="button" id="btn-results-home" aria-label="Back to title">Title Screen</button>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="js/audio.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
